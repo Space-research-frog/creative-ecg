@@ -1,3 +1,107 @@
 [
-  {"text":"Quote to come. Verified engineering quotes will be added here.","author":""}
+ {
+  "id": 1,
+  "text": "Creativity requires both originality and effectiveness.",
+  "author": "Mark A. Runco & Garrett J. Jaeger",
+  "source": "The Standard Definition of Creativity (2012)",
+  "theme": "creativity"
+ },
+ {
+  "id": 2,
+  "text": "Creativity is the generation of novel and appropriate ideas or products.",
+  "author": "Teresa M. Amabile & Julianna Pillemer",
+  "source": "2012/2015",
+  "theme": "creativity"
+ },
+ {
+  "id": 3,
+  "text": "Creativity is concerned with the generation of effective, novel solutions to problems.",
+  "author": "David H. Cropley",
+  "source": "Creativity in Engineering (2015)",
+  "theme": "engineering"
+ },
+ {
+  "id": 4,
+  "text": "The purpose of engineering education is to graduate engineers who can design.",
+  "author": "Clive Dym et al.",
+  "source": "2005",
+  "theme": "engineering"
+ },
+ {
+  "id": 5,
+  "text": "A hallmark of good systems designers is that they can anticipate the unintended consequences emerging from interactions among multiple parts of a system.",
+  "author": "Clive Dym et al.",
+  "source": "2005",
+  "theme": "engineering"
+ },
+ {
+  "id": 6,
+  "text": "Engineering design is a social process.",
+  "author": "Louis L. Bucciarelli",
+  "source": "1988",
+  "theme": "engineering"
+ },
+ {
+  "id": 7,
+  "text": "Everyone designs who devises courses of action aimed at changing existing situations into preferred ones.",
+  "author": "Herbert A. Simon",
+  "source": "The Sciences of the Artificial",
+  "theme": "design"
+ },
+ {
+  "id": 8,
+  "text": "Design… is concerned with how things ought to be.",
+  "author": "Herbert A. Simon",
+  "source": "The Sciences of the Artificial",
+  "theme": "design"
+ },
+ {
+  "id": 9,
+  "text": "Design problems are ill-defined, ill-structured, or ‘wicked’.",
+  "author": "Nigel Cross",
+  "source": "Designerly Ways of Knowing",
+  "theme": "design"
+ },
+ {
+  "id": 10,
+  "text": "Vertical thinking is concerned with digging the same hole deeper.",
+  "author": "Edward de Bono",
+  "source": "1969",
+  "theme": "lateral"
+ },
+ {
+  "id": 11,
+  "text": "Lateral thinking is concerned with digging the hole somewhere else.",
+  "author": "Edward de Bono",
+  "source": "1969",
+  "theme": "lateral"
+ },
+ {
+  "id": 12,
+  "text": "Creative design is not a matter of first fixing the problem and then searching for a satisfactory solution concept.",
+  "author": "Kees Dorst & Nigel Cross",
+  "source": "2001",
+  "theme": "creative design"
+ },
+ {
+  "id": 13,
+  "text": "The problem space and the solution space co-evolve together.",
+  "author": "Kees Dorst & Nigel Cross",
+  "source": "2001",
+  "theme": "creative design"
+ },
+ {
+  "id": 14,
+  "text": "Co-evolution is the ‘engine’ of creativity in collaborative design.",
+  "author": "Yuval Wiltschnig, Bo Christensen & Linden Ball",
+  "source": "2013",
+  "theme": "creative design"
+ },
+ {
+  "id": 15,
+  "text": "Solutions to wicked problems are not true-or-false, but good-or-bad.",
+  "author": "Horst Rittel & Melvin Webber",
+  "source": "1973",
+  "theme": "creative design"
+ }
 ]

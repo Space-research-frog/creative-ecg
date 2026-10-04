@@ -86,9 +86,10 @@ fetch("videos.json").then(r => r.json()).then(list => {
 }).catch(() => { document.getElementById("video").textContent = "Video unavailable offline."; });
 
 fetch("quotes.json").then(r => r.json()).then(list => {
-  const q = pick(list);
-  document.getElementById("qtext").textContent = q.text;
-  document.getElementById("qauthor").textContent = q.author || "";
+  const live = list.filter(x => x.status !== "hold");
+  const q = pick(live);
+  document.getElementById("qtext").textContent = "\u201C" + q.text + "\u201D";
+  document.getElementById("qauthor").textContent = q.author + (q.source ? ", " + q.source : "");
 }).catch(() => { document.getElementById("quote").hidden = true; });
 
 // Recurring daily reminder as a .ics file (nothing is sent anywhere).
