@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Creative ECG</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a4a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{--ink:#1f3a4a;--teal:#a9d3d6;--paper:#f3eee3;--gold:#d9b24c;--gold-d:#b8932f;--muted:#5d6f78}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;line-height:1.55;
+padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:480px;margin:0 auto;padding:0 20px 32px}
+header{margin:0 -20px 20px;padding:36px 20px 28px;background:linear-gradient(var(--teal),var(--paper));text-align:center}
+h1{margin:0;font-size:2rem;letter-spacing:.02em}
+.tag{margin:6px 0 0;font-style:italic;color:var(--muted)}
+.video{position:relative;aspect-ratio:16/9;background:var(--ink);border-radius:10px;overflow:hidden}
+.video.short{aspect-ratio:9/16;max-height:70vh;margin:0 auto}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vtitle{margin:8px 0 0;font-size:.9rem;color:var(--muted)}
+blockquote{margin:24px 0;padding:0 0 0 16px;border-left:3px solid var(--gold);font-size:1.15rem}
+blockquote footer{margin-top:6px;font-size:.9rem;color:var(--muted)}
+.cta{display:block;width:100%;padding:16px;margin:12px 0;border-radius:12px;text-align:center;text-decoration:none;
+font:inherit;font-size:1.05rem;font-weight:bold;border:0;cursor:pointer}
+.pulse{background:var(--ink);color:var(--paper)}
+.moment{background:var(--gold);color:var(--ink)}
+.cta:active{transform:scale(.98)}
+.cta:focus-visible,.link:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.link{background:none;border:0;font:inherit;font-size:.9rem;color:var(--muted);text-decoration:underline;cursor:pointer;padding:8px 0}
+.foot{margin-top:20px;text-align:center}
+.note{font-size:.8rem;color:var(--muted);margin:12px 0 0}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Creative ECG</h1>
+<p class="tag">Measure the rhythm of your creative mind.</p>
+</header>
+
+<section aria-label="Video of the day">
+<div id="video" class="video"></div>
+<p id="vtitle" class="vtitle"></p>
+</section>
+
+<blockquote id="quote"><p id="qtext"></p><footer id="qauthor"></footer></blockquote>
+
+<a class="cta pulse" id="pulse" href="#" target="_blank" rel="noopener">Take my creative pulse</a>
+<a class="cta moment" id="moment" href="#" target="_blank" rel="noopener">I just had a creative moment</a>
+
+<div class="foot">
+<button class="link" id="ics">Add a daily reminder to my calendar</button>
+<p class="note">This page stores nothing. Your answers are collected in Qualtrics, under the pseudonym you enter there.</p>
+</div>
+</main>
+
+<script>
+// ---- Settings: edit these ----
+const LINKS = {
+  pulse:  "https://qualtricsxmkcpd7qs82.qualtrics.com/jfe/form/SV_5hdmaub5KjgucjI",
+  moment: "https://qualtricsxmkcpd7qs82.qualtrics.com/jfe/form/SV_cv8QjrV6bJlLDRY"
+};
+const REMINDER = {hour: 18, minute: 0, text: "Creative ECG: take my creative pulse"};
+// ------------------------------
+
+document.getElementById("pulse").href = LINKS.pulse;
+document.getElementById("moment").href = LINKS.moment;
+
+// Same item for everyone on a given day (local date), so exposure can be reconstructed from Qualtrics timestamps.
+const now = new Date();
+const dayNumber = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
+
+function pick(list){ return list[dayNumber % list.length]; }
+
+fetch("videos.json").then(r => r.json()).then(list => {
+  const v = pick(list);
+  const box = document.getElementById("video");
+  if (v.short) box.classList.add("short");
+  box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + v.id +
+    '?rel=0&playsinline=1" title="Video of the day" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
+  document.getElementById("vtitle").textContent = v.title || "";
+}).catch(() => { document.getElementById("video").textContent = "Video unavailable offline."; });
+
+fetch("quotes.json").then(r => r.json()).then(list => {
+  const q = pick(list);
+  document.getElementById("qtext").textContent = q.text;
+  document.getElementById("qauthor").textContent = q.author || "";
+}).catch(() => { document.getElementById("quote").hidden = true; });
+
+// Recurring daily reminder as a .ics file (nothing is sent anywhere).
+document.getElementById("ics").addEventListener("click", () => {
+  const p = n => String(n).padStart(2, "0");
+  const d = new Date(), stamp = d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "T" + p(REMINDER.hour) + p(REMINDER.minute) + "00";
+  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Creative ECG//EN","BEGIN:VEVENT",
+    "UID:creative-ecg-reminder@local","DTSTAMP:" + stamp,"DTSTART:" + stamp,"DURATION:PT5M",
+    "RRULE:FREQ=DAILY","SUMMARY:" + REMINDER.text,"BEGIN:VALARM","TRIGGER:PT0M","ACTION:DISPLAY",
+    "DESCRIPTION:" + REMINDER.text,"END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([ics], {type: "text/calendar"}));
+  a.download = "creative-ecg-reminder.ics";
+  a.click();
+});
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+</script>
+</body>
+</html>
