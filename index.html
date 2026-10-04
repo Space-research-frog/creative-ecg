@@ -70,11 +70,8 @@ const REMINDER = {hour: 18, minute: 0, text: "Creative ECG: take my creative pul
 document.getElementById("pulse").href = LINKS.pulse;
 document.getElementById("moment").href = LINKS.moment;
 
-// Same item for everyone on a given day (local date), so exposure can be reconstructed from Qualtrics timestamps.
-const now = new Date();
-const dayNumber = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
-
-function pick(list){ return list[dayNumber % list.length]; }
+// A different random item each time the app is opened. Nothing is stored, so repeats can happen.
+function pick(list){ return list[Math.floor(Math.random() * list.length)]; }
 
 fetch("videos.json").then(r => r.json()).then(list => {
   const v = pick(list);
